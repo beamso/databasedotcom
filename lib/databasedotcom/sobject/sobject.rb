@@ -209,6 +209,14 @@ module Databasedotcom
         self.client.query("SELECT #{self.field_list} FROM #{self.sobject_name} WHERE #{where_expr}")
       end
 
+      # Returns a collection of all instances of self in the order specified by +order_expr+, which is the ORDER part of a SOQL query.
+      #
+      #    client.materialize("Car")
+      #    Car.all_with_order('Id')    #=>   [#<Car @Id="1", ...>, #<Car @Id="2", ...>, #<Car @Id="3", ...>, ...]
+      def self.all_with_order(order_expr)
+        self.client.query("SELECT #{self.field_list} FROM #{self.sobject_name} ORDER BY #{order_expr}")
+      end
+
       # Delegates to Client.search
       def self.search(sosl_expr)
         self.client.search(sosl_expr)

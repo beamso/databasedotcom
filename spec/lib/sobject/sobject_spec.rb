@@ -155,6 +155,13 @@ describe Databasedotcom::Sobject::Sobject do
       end
     end
 
+    describe ".all_with_order" do
+      it "returns a paginated enumerable containing all instances" do
+        @client.should_receive(:query).with("SELECT #{@field_names.join(',')} FROM TestClass ORDER BY baz").and_return("foo")
+        TestClass.all_with_order('baz').should == "foo"
+      end
+    end
+
     describe ".query" do
       it "constructs and submits a SOQL query" do
         @client.should_receive(:query).with("SELECT #{@field_names.join(',')} FROM TestClass WHERE Name = 'foo'").and_return("bar")
